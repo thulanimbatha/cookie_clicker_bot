@@ -12,35 +12,34 @@ driver.get(url="http://orteil.dashnet.org/experiments/cookie/")
 # find the cookie
 cookie = driver.find_element(by=By.ID, value="cookie")
 
-# find the right panel store
-store = driver.find_elements(by=By.CSS_SELECTOR, value="#rightPanel #store div b")
-# find each item within the store
-store_items = [item.text for item in store]
-# delete useless item
-del store_items[-1]
-# get the split items
-items = [item.split(" - ") for item in store_items]
-# get the costs
-costs = [item[1] for item in items]
-for cost in costs:
-    if cost != "":
-        cost.replace(",", "")
+index = 0
 
-click_on_item = 0
 while True:
     cookie.click()
+
+    # find the right panel store
+    store = driver.find_elements(by=By.CSS_SELECTOR, value="#rightPanel #store div b")
+    # find each item within the store
+    store_items = [item.text for item in store]
+    # delete useless item
+    del store_items[-1]
+    # get the split items
+    items = [item.split(" - ") for item in store_items]
+    # get the costs
+    costs = [item[1] for item in items]
+    for cost in costs:
+        if cost != "":
+            cost.replace(",", "")
 
     points = driver.find_element(by=By.ID, value="money").text
     if points != "":
         points.replace(",", "")
 
-    if int(points) > int(costs[0]):
+    if int(points) > int(costs[index]):
         # click on highest affordable element
-        store[click_on_item].click()
-        # remove last clicked item
-        del costs[0]
+        store[index].click()
         # move onto next item in store
-        click_on_item += 1
+        index += 1
 
 
 
