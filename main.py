@@ -12,7 +12,9 @@ driver.get(url="http://orteil.dashnet.org/experiments/cookie/")
 # find the cookie
 cookie = driver.find_element(by=By.ID, value="cookie")
 
-
+# find the right panel store
+store = driver.find_element(by=By.CSS_SELECTOR, value="#buyCursor b")
+print(store.text)
 
 
 
