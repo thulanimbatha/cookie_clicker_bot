@@ -13,8 +13,14 @@ driver.get(url="http://orteil.dashnet.org/experiments/cookie/")
 cookie = driver.find_element(by=By.ID, value="cookie")
 
 # find the right panel store
-store = driver.find_element(by=By.CSS_SELECTOR, value="#buyCursor b")
-print(store.text)
+store = driver.find_elements(by=By.CSS_SELECTOR, value="#rightPanel #store div")
+# find each item within the store
+store_items = [item.text for item in store]
+for item in store_items:
+    print(item)
+
+
+
 
 
 
