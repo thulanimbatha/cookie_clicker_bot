@@ -16,14 +16,31 @@ cookie = driver.find_element(by=By.ID, value="cookie")
 store = driver.find_elements(by=By.CSS_SELECTOR, value="#rightPanel #store div b")
 # find each item within the store
 store_items = [item.text for item in store]
-
+# delete useless item
 del store_items[-1]
-# for item in store_items:
-#     cost = item.split("-")[1].strip()
-#     print(cost)
+# get the split items
 items = [item.split(" - ") for item in store_items]
-print(items)
+# get the costs
+costs = [item[1] for item in items]
+for cost in costs:
+    if cost != "":
+        cost.replace(",", "")
 
+click_on_item = 0
+while True:
+    cookie.click()
+
+    points = driver.find_element(by=By.ID, value="money").text
+    if points != "":
+        points.replace(",", "")
+
+    if int(points) > int(costs[0]):
+        # click on highest affordable element
+        store[click_on_item].click()
+        # remove last clicked item
+        del costs[0]
+        # move onto next item in store
+        click_on_item += 1
 
 
 
