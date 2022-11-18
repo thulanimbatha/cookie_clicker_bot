@@ -15,10 +15,17 @@ cookie = driver.find_element(by=By.ID, value="cookie")
 index = 0
 
 interval_check = time.time() + 5
+gameplay_time = time.time() + 60 * 5
+game_on = True
 
 # TODO Finish final part of project - adding in the click counter, stopping game after 5 minutes
 
-while True:
+while game_on:
+    
+    # exit loop after 5 min
+    if time.time() > gameplay_time:
+        game_on = False
+
     cookie.click()
 
     # check every 10 seconds
@@ -40,13 +47,13 @@ while True:
         
         # get the costs
         costs = [item[1] for item in items]
-        for cost in costs:
-            if cost != "":
-                cost.replace(",", "")
+        for cost_text in costs:
+            if cost_text != "":
+                cost = cost_text.replace(",", "")
 
-        points = driver.find_element(by=By.ID, value="money").text
-        if points != "":
-            points.replace(",", "")
+        points_text = driver.find_element(by=By.ID, value="money").text
+        if points_text != "":
+            points = points_text.replace(",", "")
 
         if int(points) > int(costs[index]):
             # click on highest affordable element
@@ -54,6 +61,8 @@ while True:
             # move onto next item in store
             index += 1
 
+cookies_per_sec = driver.find_element(by=By.ID, value="cps")
+print(cookies_per_sec.text)
 
 
 
